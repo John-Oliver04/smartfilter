@@ -15,8 +15,8 @@ class CreateExcelfilesTable extends Migration
     {
         Schema::create('excelfiles', function (Blueprint $table) {
             $table->id();
-            $table->string('filename');
-            $table->string('uploader');
+            $table->string('adl')->NULL();
+            $table->string('uploader')->NULL();
             $table->timestamps();
         });
     }

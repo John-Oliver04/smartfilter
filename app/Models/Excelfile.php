@@ -11,7 +11,7 @@ class Excelfile extends Model
     protected $table = "excelfiles";
     
     protected $fillable = [
-        'filename',
+        'adl',
         'uploader',
     ];
 }

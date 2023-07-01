@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Beneficiary;
+use App\Models\Excelfile;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
 use PHPExcel_Shared_Date;
@@ -18,6 +19,7 @@ class BeneficiaryImport implements ToModel, WithCalculatedFormulas
     */
     public function model(array $row)
     {
+        // adl
         // 'firstname',
         // 'middlename',
         // 'lastname',
@@ -38,9 +40,12 @@ class BeneficiaryImport implements ToModel, WithCalculatedFormulas
         // 'dependent',
         // 'interested',
         // 'nameoftraining'
-        // Enable calculation
+        // uploader
+
+        
+
         return new Beneficiary([
-            'idofbene'      => $row[0],
+            'adl'      => $row[0],
            'firstname'      => $row[1],
            'middlename'     => $row[2],
            'lastname'       => $row[3],
@@ -61,6 +66,7 @@ class BeneficiaryImport implements ToModel, WithCalculatedFormulas
            'dependent'      => $row[18],
            'interested'     => $row[19],
         'nameoftraining'    => $row[20],
+        'uploader'    => $row[21],
         ]);
     }
 }

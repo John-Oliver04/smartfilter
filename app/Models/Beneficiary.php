@@ -11,7 +11,7 @@ class Beneficiary extends Model
 
     protected $table = "beneficiaries";
     protected $fillable = [
-        'filename',
+        'adl',
         'firstname',
         'middlename',
         'lastname',
@@ -31,7 +31,8 @@ class Beneficiary extends Model
         'age',
         'dependent',
         'interested',
-        'nameoftraining'
+        'nameoftraining',
+        'uploader'
     ];
 
 }

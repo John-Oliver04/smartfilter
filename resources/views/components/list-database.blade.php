@@ -19,11 +19,18 @@
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-info" role="alert">
-                            Please import the edited excel files with the given columns 
+                            Step 1. Download this file. <a href="{{ asset('csv\ADL-1023-0012.csv') }}" class="p-1 rounded bg-success">Download Now</a><br>
+                            Step 2. Rename the csv file with same to your ADL. <br>
+                            Step 3. Paste all the beneficiary to the csv file. <br>
+                            Step 4. Import :)
                         </div>
                         <div class="mb-3 input-group">
                             <span class="input-group-text" id="basic-addon1">Uploader</span>
                             <input type="text" required name="uploader" class="form-control" placeholder="full name of uploader.." aria-label="Uploader Name" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="mb-3 input-group">
+                            <span class="input-group-text" id="basic-addon1">ADL</span>
+                            <input type="text" required name="adl" class="form-control" placeholder="type ADL" aria-label="ADL" aria-describedby="basic-addon1">
                         </div>
                         <input type="file" required name="importfile" id="importfile">
                     </div> 
@@ -71,7 +78,7 @@
         <table class="table table-striped table-hover">
             <thead>
                 <th>#</th>
-                <th>DATABASE</th>
+                <th>ADL</th>
                 <th>UPLOADED BY</th>
                 <th>DATE CREATED</th>
             </thead>
@@ -83,7 +90,7 @@
                 @foreach ($files as $item)
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$item->filename}}</td>
+                        <td>{{$item->adl}}</td>
                         <td>{{$item->uploader}}</td>
                         <td>{{$item->created_at}}</td>
                     </tr>

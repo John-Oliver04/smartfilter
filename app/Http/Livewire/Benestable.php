@@ -26,6 +26,9 @@ class Benestable extends Component
     public $dupbrgy;
     public $dupbrgycount = 0;
 
+    public $agemax;
+    public $agelimit;
+    public $ageselected;
 
 
     public function fnamepass()
@@ -45,6 +48,10 @@ class Benestable extends Component
         $this->search = $this->optitem;
     }
     public function brgypass()
+    {
+        $this->search = $this->optitem;
+    }
+    public function ageLimit()
     {
         $this->search = $this->optitem;
     }
@@ -111,20 +118,28 @@ class Benestable extends Component
         $this->dupbirthday = $birthdaynames;
         $this->dupbirthdaycount = count($birthdaynames);
 
-        // birthday ----------------------------------------------------------------------------
-        $dupbirthday = DB::table('beneficiaries')
-        ->select('brgy', 'municipality','province', DB::raw('COUNT(*) as `count`'))
-        ->groupBy('brgy', 'municipality','province')
+
+        // AGE LIMIT ----------------------------------------------------------------------------
+        $agemaxx = DB::table('beneficiaries')
+        ->select('age', DB::raw('COUNT(*) as `count`'))
+        ->where('age','>',57)
+        ->where('age','!=','Age')
+        ->groupBy('age')
         ->havingRaw('COUNT(*) > 1')
         ->get(); 
-        $dupbirthday = $dupbirthday->pluck('birthday');
-
-        $birthdaynames = [];
-        foreach ($dupid as $name) {
-            $birthdaynames[] = $name;
+        // $agemaxx = DB::select('select age from beneficiaries where age >= 60  and age != "Age"');
+        // $agelimit = DB::select('select age from beneficiaries where age <= 18 and age != "Age"');
+        $agemax = $agemaxx->pluck('age');
+        $agesmax = [];
+        foreach ($agemax as $age) {
+            $agesmax[] = $age;
         }
-        $this->dupbirthday = $birthdaynames;
-        $this->dupbirthdaycount = count($birthdaynames);
+        $this->agemax = $agesmax;
+        // $ageslimit = [];
+        // foreach ($agelimit as $age) {
+        //     $ageslimit[] = $age;
+        // }
+        // $this->agelimit = $ageslimit;
 
     }
 
@@ -134,7 +149,8 @@ class Benestable extends Component
         return view('livewire.benestable', [
             'benesearch' => Beneficiary::where('firstname','LIKE', "%".$this->search."%" ?? '')
             ->orWhere('lastname','LIKE', "%".$this->search."%" ?? '')
-            ->orWhere('idnumber','LIKE', "%".$this->search."%" ?? '')
+            ->orWhere('idnumber','=', "%".$this->search."%" ?? '')
+            ->orWhere('age','LIKE', "%".$this->search."%" ?? '')
             ->paginate(10),
         ]);
     }

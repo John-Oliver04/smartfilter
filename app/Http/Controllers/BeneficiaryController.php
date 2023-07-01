@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Imports\BeneficiaryImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Excelfile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class BeneficiaryController extends Controller
@@ -16,22 +17,40 @@ class BeneficiaryController extends Controller
     }
 
     public function importbene(Request $request)
-    { 
-        // dd($request->file('importfile'));
-        request()->validate([
-            'importfile'   => ['mimes:xlsx', 'max:30048']
-        ]);
+    {  
+        if($request->hasFile('importfile')){
+            $path = $request->file('importfile')->getRealPath();
+            Excel::import(new BeneficiaryImport,$path);
+             
+                $ef = new Excelfile;
+                $ef->adl =  $request->input('adl');
+                $ef->uploader = $request->input('uploader');
+                $ef->save(); 
+     
+        }
+         // adl
+        // 'firstname',
+        // 'middlename',
+        // 'lastname',
+        // 'extname',
+        // 'birthday',
+        // 'brgy',
+        // 'municipality',
+        // 'province',
+        // 'typeofid',
+        // 'idnumber',
+        // 'contact',
+        // 'typeofpayment',
+        // 'typeofbene',
+        // 'occupation',
+        // 'sex',
+        // 'civilstatus',
+        // 'age',
+        // 'dependent',
+        // 'interested',
+        // 'nameoftraining'
+        // uploader
   
-        $file = $request->file('importfile');
-        $file->move('importedexcel', $file->getClientOriginalName());
-        Excel::import(new BeneficiaryImport, public_path().'/importedexcel/'.$file->getClientOriginalName());
-        // (new BeneficiaryImport)->import(public_path().'/local/'.$file->getClientOriginalName(), 'local', \Maatwebsite\Excel\Excel::XLSX);
-        $ef = new Excelfile();
-        $ef->filename = $file->getClientOriginalName();
-        $ef->uploader = $request->uploader;
-        $ef->save();
-
-        Storage::delete(public_path().'/importedexcel/'.$file->getClientOriginalName());
         return redirect("/tables")->with("message","Successfully imported to database");
     }
 }
