@@ -20,12 +20,12 @@ class BeneficiaryController extends Controller
     {  
         if($request->hasFile('importfile')){
             $path = $request->file('importfile')->getRealPath();
+            $ef = new Excelfile;
+            $ef->adl =  $request->input('adl');
+            $ef->uploader = $request->input('uploader');
+            $ef->save(); 
             Excel::import(new BeneficiaryImport,$path);
              
-                $ef = new Excelfile;
-                $ef->adl =  $request->input('adl');
-                $ef->uploader = $request->input('uploader');
-                $ef->save(); 
      
         }
          // adl

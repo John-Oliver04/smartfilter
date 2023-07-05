@@ -3,10 +3,11 @@
 namespace App\Http\Livewire;
 
 use App\Models\Beneficiary;
+use App\Models\TableCollection as ModelsTableCollection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
-class Benestable extends Component
+class TableCollection extends Component
 {
     public $search;
     public $optitem='';
@@ -56,7 +57,7 @@ class Benestable extends Component
         $this->search = $this->optitem;
     }
 
-    public function mount()
+    public function filternow()
     {
         // firstname ------------------------------------------------------------------------
         $dupfname = DB::table('beneficiaries')
@@ -146,10 +147,10 @@ class Benestable extends Component
 
     public function render()
     {
-        return view('livewire.benestable', [
-            'benesearch' => Beneficiary::where('firstname','LIKE', "%".$this->search."%" ?? '')
+        return view('livewire.table-collection', [
+            'benesearch' => ModelsTableCollection::where('firstname','LIKE', "%".$this->search."%" ?? '')
             ->orWhere('lastname','LIKE', "%".$this->search."%" ?? '')
-            ->orWhere('idnumber','=', $this->search ?? '')
+            ->orWhere('idnumber','=', "%".$this->search."%" ?? '')
             ->orWhere('age','LIKE', "%".$this->search."%" ?? '')
             ->paginate(10),
         ]);

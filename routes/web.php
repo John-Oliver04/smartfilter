@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BeneficiaryController;
 use App\Http\Controllers\ExcelfileController;
+use App\Http\Controllers\TableCollectionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,10 +25,12 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
-    Route::post('/create-database', [DatabaseController::class, 'post'])->name("create-database");
+    // Route::post('/create-database', [DatabaseController::class, 'post'])->name("create-database");
     Route::post('/tables-import-beneficiaries', [BeneficiaryController::class, 'importbene'])->name("tables-import-beneficiaries");
     Route::post('/tables-filter-beneficiaries', [BeneficiaryController::class, 'filterbene'])->name("tables-filter-beneficiaries");
     Route::get('/tables',[BeneficiaryController::class,'index'])->name('tables');
+    Route::post('/tables/add-to-collections',[TableCollectionController::class, 'store'])->name('add-to-collections');
+    Route::get('/collection',[TableCollectionController::class,'index'])->name('collection');
 });
 
 require __DIR__.'/auth.php';
